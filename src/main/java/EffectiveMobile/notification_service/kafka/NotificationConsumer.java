@@ -12,8 +12,9 @@ public class NotificationConsumer {
 
     private final NotificationService service;
 
-    @KafkaListener(topics = "registered", groupId = "notification-service")
-    public void listen(RegisterEvent event){
-        service.send(event);
-        }
+    @KafkaListener(topics = "${app.kafka.topics.registered}")
+    public void listen(RegisterEvent event) {
+        System.out.println("Received event: " + event);
+        service.send(event.email(), event.code());
     }
+}
