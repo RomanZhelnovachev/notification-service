@@ -1,3 +1,24 @@
+server:
+  port: ${SERVER_PORT:8080}
+
 spring:
   application:
     name: notification-service
+
+  kafka:
+    bootstrap-servers: kafka-kafka-bootstrap.kafka.svc.cluster.local:9092
+
+    consumer:
+      group-id: notification-service
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+    properties:
+      spring.json.trusted.packages: "EffectiveMobile.notification_service.dto"
+      spring.json.use.type.headers: false
+      spring.json.value.default.type: EffectiveMobile.notification_service.dto.RegisterEvent
+app:
+  kafka:
+    topics:
+      registered: registered
